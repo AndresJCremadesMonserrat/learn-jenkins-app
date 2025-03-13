@@ -38,6 +38,14 @@ pipeline {
                             npm test
                         '''
                     }
+                    //post action
+                    post {
+                        //it will be executed everytime
+                        always { 
+                            //path to the junit.xml file where the results will be recorded
+                            junit 'jest-results/junit.xml'
+                        }
+                    }
                 }
                 stage('E2E') {
                     agent {
@@ -54,19 +62,16 @@ pipeline {
                             npx playwright test --reporter=html
                         '''
                     }
+                    //post action
+                    post {
+                        //it will be executed everytime
+                        always { 
+                            //html report
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }
                 }
             }
-        }
-    }
-
-    //post action
-    post {
-        //it will be executed everytime
-        always { 
-            //path to the junit.xml file where the results will be recorded
-            junit 'jest-results/junit.xml'
-            //html report
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
 }
