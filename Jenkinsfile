@@ -48,7 +48,7 @@ pipeline {
                     npm install serve #uses serve locally
                     node_modules/.bin/serve -s build & #start server in the background
                     sleep 10
-                    npx playwright test
+                    npx playwright test --reporter=html
                 '''
             }
         }
