@@ -60,6 +60,8 @@ pipeline {
         always { 
             //path to the junit.xml file where the results will be recorded
             junit 'jest-results/junit.xml'
+            //html report
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
     }
 }
