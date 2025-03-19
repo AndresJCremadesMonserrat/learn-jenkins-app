@@ -72,7 +72,33 @@ pipeline {
                         //it will be executed everytime
                         always { 
                             //html report
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }
+                }
+                stage('Prod E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
+
+                    environment {
+                        CI_ENVIRONMENT_URL = 'https://ubiquitous-stroopwafel-a329f0.netlify.app'
+                    }
+
+                    steps {
+                        sh '''
+                            npx playwright test --reporter=html
+                        '''
+                    }
+                    //post action
+                    post {
+                        //it will be executed everytime
+                        always { 
+                            //html report
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
