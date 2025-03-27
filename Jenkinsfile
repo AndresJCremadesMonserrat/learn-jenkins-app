@@ -86,6 +86,10 @@ pipeline {
                 }
             }
 
+            environment {
+                CI_ENVIRONMENT_URL = 'STAGING _URL_TO_BE_SET'
+            }
+
             steps {
                 sh '''
                     node --version
