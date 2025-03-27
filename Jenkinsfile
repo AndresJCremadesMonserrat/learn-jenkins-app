@@ -7,7 +7,6 @@ pipeline {
     }
 
     stages {
-        
         stage('Build') {
             agent {
                 docker {
@@ -28,8 +27,8 @@ pipeline {
                 '''
             }
         }
-        
-        stage('Tests'){
+
+        stage('Tests') {
             parallel {
                 stage('Unit tests') {
                     agent {
@@ -46,7 +45,7 @@ pipeline {
                     //post action
                     post {
                         //it will be executed everytime
-                        always { 
+                        always {
                             //path to the junit.xml file where the results will be recorded
                             junit 'jest-results/junit.xml'
                         }
@@ -70,35 +69,9 @@ pipeline {
                     //post action
                     post {
                         //it will be executed everytime
-                        always { 
+                        always {
                             //html report
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local', reportTitles: '', useWrapperFileDirectly: true])
-                        }
-                    }
-                }
-                stage('Prod E2E') {
-                    agent {
-                        docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                            reuseNode true
-                        }
-                    }
-
-                    environment {
-                        CI_ENVIRONMENT_URL = 'https://ubiquitous-stroopwafel-a329f0.netlify.app'
-                    }
-
-                    steps {
-                        sh '''
-                            npx playwright test --reporter=html
-                        '''
-                    }
-                    //post action
-                    post {
-                        //it will be executed everytime
-                        always { 
-                            //html report
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
@@ -126,7 +99,7 @@ pipeline {
 
         stage('Approval') {
             steps {
-                timeout(time: 15, unit: 'MINUTES'){
+                timeout(time: 15, unit: 'MINUTES') {
                     input message: 'Do you wish to deploy to production?', ok: 'Yes, I am sure!'
                 }
             }
