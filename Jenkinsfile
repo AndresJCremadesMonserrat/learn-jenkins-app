@@ -120,7 +120,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://ubiquitous-stroopwafel-a329f0.netlify.app/'
+                CI_ENVIRONMENT_URL = 'https://ubiquitous-stroopwafel-a329f0.netlify.app'
             }
 
             steps {
