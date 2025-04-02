@@ -13,11 +13,11 @@ pipeline {
             agent {
                 docker {
                     image 'amazon/aws-cli'
-                    args "--entrypoint=''"
+                    args '--entrypoint=""'
                 }
             }
 
-            environments {
+            environment {
                 AWS_S3_BUCKET ='learn-jenkins-202504011716'
             }
 
