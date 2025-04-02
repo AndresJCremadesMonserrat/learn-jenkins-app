@@ -18,7 +18,7 @@ pipeline {
 
             steps {
                 sh '''
-                    aws --version
+                    docker run --rm -it amazon/aws-cli --version --entrypoint=''
                 '''
             }
         }
