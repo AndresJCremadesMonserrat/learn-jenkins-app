@@ -22,7 +22,7 @@ pipeline {
                     sh '''
                         aws --version
                         yum install jq -y
-                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
+                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json  | jq '.taskDefinition.revision'
                         aws ecs update-service --cluster UdemyLearnJenkinsApp-Cluster-Prod --service UdemyLearnJenkinsApp-Service-Prod --task-definition UdemyLearnJenkinsApp-TaskDefinition-Prod:2
                     '''
                 }
