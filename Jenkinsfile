@@ -11,6 +11,33 @@ pipeline {
 
     stages {
         
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    //use same agent for all the steps and share workspace
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    echo 'Small change'
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t myjenkinsapp .' // the dot here is the path where the build command will find the Dockerfile
+            }
+        }
+
         stage('Deploy to AWS') {
             agent {
                 docker {
@@ -31,27 +58,6 @@ pipeline {
                     '''
                 }
 
-            }
-        }
-
-        stage('Build') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    //use same agent for all the steps and share workspace
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    echo 'Small change'
-                    ls -la
-                    node --version
-                    npm --version
-                    npm ci
-                    npm run build
-                    ls -la
-                '''
             }
         }
     }
