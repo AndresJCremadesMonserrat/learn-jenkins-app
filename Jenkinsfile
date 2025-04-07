@@ -44,7 +44,7 @@ pipeline {
             steps {
                 sh '''
                     amazon-linux-extras install docker
-                    docker build -t myjenkinsapp . # the dot here is the path where the build command will find the Dockerfile
+                    docker build -t myjenkinsapp .
                 '''
             }
         }
