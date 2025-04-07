@@ -5,7 +5,7 @@ pipeline {
 
         stage('Build Docker image') {
             steps {
-                sh 'docker build -t my-playwright .' // the dot here is the path where the build command will finde the Dockerfile
+                sh 'docker build -f ci/Dockerfile -t my-playwright .' // the dot here is the path where the build command will finde the Dockerfile
             }
         }
     }
