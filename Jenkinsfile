@@ -32,12 +32,15 @@ pipeline {
             }
         }
 
+        /*We're creating a link between our host from where we're running this container and the inside of our container
+        -v <host_path>:<container_path>
+        */
         stage('Build Docker image') {
             agent {
                 docker {
                     image 'amazon/aws-cli'
                     reuseNode true
-                    args '-u root --entrypoint=""'
+                    args '-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=""'
                 }
             }
 
