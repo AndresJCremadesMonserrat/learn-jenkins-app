@@ -47,7 +47,7 @@ pipeline {
             }
 
             steps {
-                sh 'docker build -t $APP_NAME:$REACT_APP_VERSION .'
+                sh 'docker build -t $AWS_DOCKER_REGISTRY/$AWS:$REACT_APP_VERSION .'
             }
         }
 
