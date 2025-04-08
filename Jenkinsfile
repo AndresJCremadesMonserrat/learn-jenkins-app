@@ -45,9 +45,7 @@ pipeline {
             }
 
             steps {
-                sh '''
-                    docker build -t myjenkinsapp .
-                '''
+                sh 'docker build -t myjenkinsapp .'
             }
         }
 
@@ -56,7 +54,7 @@ pipeline {
                 docker {
                     image 'my-aws-cli'
                     reuseNode true
-                    args '-u root --entrypoint=""'
+                    args "--entrypoint=''"
                 }
             }
 
